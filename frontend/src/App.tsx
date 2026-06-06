@@ -4,6 +4,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
+import JobTrackerPage from './pages/JobTrackerPage';
+import JobDetailPage from './pages/JobDetailPage';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/tracker" element={<JobTrackerPage />} />
+            <Route path="/tracker/:id" element={<JobDetailPage />} />
           </Route>
 
           {/* Default redirect */}

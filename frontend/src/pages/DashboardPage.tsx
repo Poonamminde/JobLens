@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 export default function DashboardPage() {
@@ -23,6 +23,8 @@ export default function DashboardPage() {
       ),
       title: 'Job Tracker',
       description: 'Organize and monitor all your applications in one place.',
+      href: '/tracker',
+      live: true,
     },
     {
       icon: (
@@ -32,6 +34,8 @@ export default function DashboardPage() {
       ),
       title: 'ATS Resume Score',
       description: 'Get AI-powered resume analysis and beat ATS filters.',
+      href: undefined,
+      live: false,
     },
     {
       icon: (
@@ -41,6 +45,8 @@ export default function DashboardPage() {
       ),
       title: 'AI Interview Practice',
       description: 'Practice with role-specific AI interview questions.',
+      href: undefined,
+      live: false,
     },
     {
       icon: (
@@ -50,6 +56,8 @@ export default function DashboardPage() {
       ),
       title: 'Resume Manager',
       description: 'Store and manage multiple resume versions.',
+      href: undefined,
+      live: false,
     },
   ];
 
@@ -174,47 +182,73 @@ export default function DashboardPage() {
 
         {/* Feature cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {features.map(({ icon, title, description }) => (
-            <div
-              key={title}
-              className="flex gap-4 items-start rounded-2xl p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)] group"
-              style={{
-                background: 'rgba(13,17,23,0.75)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                backdropFilter: 'blur(12px)',
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.borderColor = 'rgba(99,102,241,0.25)')}
-              onMouseOut={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
-            >
-              {/* Icon box */}
-              <div
-                className="w-11 h-11 shrink-0 rounded-lg flex items-center justify-center text-indigo-400"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(167,139,250,0.15))',
-                  border: '1px solid rgba(99,102,241,0.2)',
-                }}
-              >
-                {icon}
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <h3 className="text-[0.95rem] font-semibold text-slate-100">{title}</h3>
-                  <span
-                    className="text-[0.68rem] font-semibold px-2 py-0.5 rounded-full uppercase tracking-widest whitespace-nowrap text-indigo-400"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(167,139,250,0.2))',
-                      border: '1px solid rgba(99,102,241,0.25)',
-                    }}
-                  >
-                    Coming Soon
-                  </span>
+          {features.map(({ icon, title, description, href, live }) => {
+            const cardContent = (
+              <>
+                {/* Icon box */}
+                <div
+                  className="w-11 h-11 shrink-0 rounded-lg flex items-center justify-center text-indigo-400"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(167,139,250,0.15))',
+                    border: '1px solid rgba(99,102,241,0.2)',
+                  }}
+                >
+                  {icon}
                 </div>
-                <p className="text-[0.82rem] text-slate-500 leading-relaxed">{description}</p>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <h3 className="text-[0.95rem] font-semibold text-slate-100">{title}</h3>
+                    {live ? (
+                      <span className="text-[0.68rem] font-semibold px-2 py-0.5 rounded-full uppercase tracking-widest whitespace-nowrap text-green-400"
+                        style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)' }}>
+                        ● Live
+                      </span>
+                    ) : (
+                      <span className="text-[0.68rem] font-semibold px-2 py-0.5 rounded-full uppercase tracking-widest whitespace-nowrap text-indigo-400"
+                        style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(167,139,250,0.2))', border: '1px solid rgba(99,102,241,0.25)' }}>
+                        Coming Soon
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[0.82rem] text-slate-500 leading-relaxed">{description}</p>
+                </div>
+                {live && (
+                  <div className="self-center shrink-0 text-slate-600 group-hover:text-indigo-400 transition-colors">
+                    <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+              </>
+            );
+
+            const sharedCls = `flex gap-4 items-start rounded-2xl p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)] group ${live ? 'cursor-pointer' : 'cursor-default'}`;
+            const sharedStyle = { background: 'rgba(13,17,23,0.75)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' };
+
+            return href ? (
+              <Link
+                key={title}
+                to={href}
+                className={sharedCls}
+                style={sharedStyle}
+                onMouseOver={(e) => (e.currentTarget.style.borderColor = 'rgba(99,102,241,0.35)')}
+                onMouseOut={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+              >
+                {cardContent}
+              </Link>
+            ) : (
+              <div
+                key={title}
+                className={sharedCls}
+                style={sharedStyle}
+                onMouseOver={(e) => (e.currentTarget.style.borderColor = 'rgba(99,102,241,0.25)')}
+                onMouseOut={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+              >
+                {cardContent}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>
