@@ -174,7 +174,7 @@ export default function JobFormModal({ open, job, onClose, onSave }: Props) {
           {/* Job Title */}
           <div>
             <label className={labelCls}>Job Title *</label>
-            <input ref={firstRef} {...register('jobTitle')}
+            <input {...register('jobTitle')}
               className={`${inputCls} ${errors.jobTitle ? inputErrCls : ''}`}
               placeholder="e.g. Senior Frontend Developer" />
             {errors.jobTitle && <p className={errCls}>{errors.jobTitle.message}</p>}

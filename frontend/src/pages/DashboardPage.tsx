@@ -34,8 +34,8 @@ export default function DashboardPage() {
       ),
       title: 'ATS Resume Score',
       description: 'Get AI-powered resume analysis and beat ATS filters.',
-      href: undefined,
-      live: false,
+      href: '/ats',
+      live: true,
     },
     {
       icon: (
