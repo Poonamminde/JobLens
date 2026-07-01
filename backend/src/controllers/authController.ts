@@ -91,11 +91,12 @@ export const login = async (
 };
 
 export const logout = (_req: Request, res: Response): void => {
+  const isProd = process.env['NODE_ENV'] === 'production';
   res.cookie('jwt', '', {
     httpOnly: true,
     expires: new Date(0),
-    secure: process.env['NODE_ENV'] === 'production',
-    sameSite: 'strict',
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
   });
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 };

@@ -17,8 +17,8 @@ const generateToken = (res: Response, userId: Types.ObjectId): void => {
 
   res.cookie('jwt', token, {
     httpOnly: true,
-    secure: isProd,
-    sameSite: 'strict',
+    secure: isProd,              // must be true when sameSite is 'none'
+    sameSite: isProd ? 'none' : 'lax',  // 'none' allows cross-site (Vercel → Render); 'lax' for local dev
     maxAge,
   });
 };
