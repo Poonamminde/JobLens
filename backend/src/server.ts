@@ -6,6 +6,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import jobRoutes from './routes/jobRoutes.js';
 import atsRoutes from './routes/atsRoutes.js';
+import resumeRoutes from './routes/resumeRoutes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/ats', atsRoutes);
+app.use('/api/resumes', resumeRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {

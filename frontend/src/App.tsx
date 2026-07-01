@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage';
 import JobTrackerPage from './pages/JobTrackerPage';
 import JobDetailPage from './pages/JobDetailPage';
 import AtsScorePage from './pages/AtsScorePage';
+import ResumeBuilderPage from './pages/ResumeBuilderPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/tracker" element={<JobTrackerPage />} />
             <Route path="/tracker/:id" element={<JobDetailPage />} />
             <Route path="/ats" element={<AtsScorePage />} />
+            <Route path="/resume-builder" element={<ResumeBuilderPage />} />
           </Route>
 
           {/* Default redirect */}
