@@ -2,6 +2,10 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import rateLimit from 'express-rate-limit';
 import { register, login, logout, getMe } from '../controllers/authController.js';
+import {
+  completeGoogleOAuth,
+  startGoogleOAuth,
+} from '../controllers/oauthController.js';
 import { protect } from '../middleware/auth.js';
 
 const router = Router();
@@ -46,5 +50,7 @@ router.post('/register', authLimiter, registerValidation, register);
 router.post('/login', authLimiter, loginValidation, login);
 router.post('/logout', logout);
 router.get('/me', protect, getMe);
+router.get('/oauth/google', startGoogleOAuth);
+router.get('/oauth/google/callback', completeGoogleOAuth);
 
 export default router;

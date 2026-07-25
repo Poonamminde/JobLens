@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '../hooks/useAuth';
+import OAuthButtons from '../components/OAuthButtons';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
@@ -15,8 +16,16 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [serverError, setServerError] = useState('');
+  const [serverError, setServerError] = useState(() =>
+    new URLSearchParams(window.location.search).get('oauth_error') ?? ''
+  );
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('oauth_error')) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const {
     register,
@@ -111,6 +120,15 @@ export default function LoginPage() {
             {serverError}
           </div>
         )}
+
+        <div className="mb-5">
+          <OAuthButtons />
+          <div className="my-5 flex items-center gap-3 text-xs text-slate-500">
+            <span className="h-px flex-1 bg-white/[0.08]" />
+            or continue with email
+            <span className="h-px flex-1 bg-white/[0.08]" />
+          </div>
+        </div>
 
         {/* Form */}
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
