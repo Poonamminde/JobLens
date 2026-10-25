@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '../hooks/useAuth';
+import OAuthButtons from '../components/OAuthButtons';
 
 const registerSchema = z
   .object({
@@ -177,6 +178,15 @@ export default function RegisterPage() {
             {serverError}
           </div>
         )}
+
+        <div className="mb-5">
+          <OAuthButtons />
+          <div className="my-5 flex items-center gap-3 text-xs text-slate-500">
+            <span className="h-px flex-1 bg-white/[0.08]" />
+            or create an account with email
+            <span className="h-px flex-1 bg-white/[0.08]" />
+          </div>
+        </div>
 
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
           <Field
